@@ -1,0 +1,15 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:zojax="http://namespaces.zope.org/zojax"
+   i18n_domain="zojax.poll">
+
+  <!-- styles -->
+  <zojax:resourceinclude
+     name="zojax-poll.css"
+     library="zojax" type="stylesheet" file="styles.css" filetype="zrt" />
+
+  <zojax:resourcedirectory
+     name="poll-images"
+     directory="images" />
+
+</configure>

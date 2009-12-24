@@ -1,0 +1,7 @@
+<tal:block i18n:domain="zojax.poll">
+  <tal:block content="structure pagelet:+results"
+             condition="view/showResults" />
+  <tal:block condition="not:view/showResults" i18n:translate="">
+    Sorry, you can't view results for this poll
+  </tal:block>
+</tal:block>

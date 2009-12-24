@@ -1,0 +1,395 @@
+==============
+Poll
+==============
+
+    >>> from zope import interface, component, event
+    >>> from zope.interface.verify import verifyClass
+    >>> from zope.app.component.hooks import setSite
+    >>> from zope.app.intid.interfaces import IIntIds
+    >>> from zope.app.security.interfaces import IAuthentication
+    >>> from zope.app.component.hooks import setSite
+    >>> import re
+    >>> from zojax.extensions.interfaces import IExtensible
+    >>> from zojax.content.type.interfaces import IContentContainer
+    >>> from zojax.poll import interfaces
+
+    >>> root = getRootFolder()
+    >>> setSite(root)
+    >>> interface.alsoProvides(root, IExtensible, IContentContainer)
+
+Browser tests
+
+    >>> from zope.testbrowser.testing import Browser
+
+    >>> admin = Browser()
+    >>> admin.addHeader("Authorization", "Basic mgr:mgrpw")
+    >>> admin.handleErrors = False
+    >>> admin.open('http://localhost/space/')
+    >>> 'blog' in admin.contents
+    False
+
+    >>> user = Browser()
+    >>> user.addHeader("Authorization", "Basic user:userpw")
+    >>> user.handleErrors = False
+
+
+Install poll product
+
+    >>> admin.open('http://localhost/settings/')
+    >>> admin.getLink('Products management').click()
+    >>> admin.getControl(name="availproducts:list").value = ['poll']
+    >>> admin.getControl('Install').click()
+
+
+Add pollset to space
+
+    >>> admin.open('http://localhost/space/+')
+    >>> admin.getLink('Poll Set').click()
+    >>> admin.getControl('Title').value = 'Some Poll Set'
+    >>> admin.getControl('Description').value = 'Some Poll Set Description'
+    >>> admin.getControl('Body text').value = 'Some Poll Set Body'
+    >>> admin.getControl('Add').click()
+    >>> admin.url
+    'http://localhost/space/some-poll-set/'
+
+
+Create poll
+
+    >>> admin.open('+')
+    >>> admin.getLink('Poll').click()
+    >>> admin.getControl('Title').value = 'Some Poll'
+    >>> admin.getControl('Body text', index=0).value = 'Some Poll Body'
+
+We have subform with info to precreate question and answers
+
+    >>> admin.getControl('Question').value = 'What?'
+    >>> admin.getControl('Answers').value = """because
+    ... another
+    ... same"""
+    >>> admin.getControl(name='polldraft.widgets.allowCustom:list').value = ['true']
+    >>> admin.getControl('Number of choices allowed').value = '2'
+
+    >>> admin.getControl('Publish').click()
+
+    >>> print admin.contents
+    <html>
+    ...Your Poll has been published...
+    ...
+    </html>
+
+We set order of answers:
+
+    >>> admin.open('http://localhost/space/some-poll-set/00001/what/context.html/contents')
+    >>> admin.getControl(name="ids:list").value = ['another']
+    >>> admin.getControl('Move Top').click()
+
+Poll form
+
+     >>> admin.open('http://localhost/space/some-poll-set/00001')
+     >>> admin.getControl('because').click()
+     >>> admin.getControl('Not agree with choices? Enter your opinion in box.').value = 'custom value'
+     >>> admin.getControl('Vote').click()
+     >>> print admin.contents
+     <html>
+     <body>
+     ...Your vote saved, thank you!...
+     ...
+     ...<h1 class="z-content-title">Some Poll</h1>...
+     ...
+      <h2>What?</h2>
+        <table width="100%">
+        <tbody>
+        <tr>
+          <td><span class="poll-results-answer-label">because</span></td>
+        </tr>
+        <tr>
+          <td>
+            <table width="100%" cellspacing="0" cellpadding="0" border="0">
+              <tbody>
+                <tr>
+                  <td height="10" class="poll-results-answer-cell" width="50%" />
+                  <td valign="center" class="poll-results-answer-cell-right" width="50%">
+                    <span class="percents">
+                      <a href="http://localhost/space/some-poll-set/00001/results.html">50%</a>
+                    </span>
+                    <span class="votes">1</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+         <tr>
+          <td><span class="poll-results-answer-label">custom value</span></td>
+        </tr>
+        <tr>
+          <td>
+            <table width="100%" cellspacing="0" cellpadding="0" border="0">
+              <tbody>
+                <tr>
+                  <td height="10" class="poll-results-answer-cell" width="50%" />
+                  <td valign="center" class="poll-results-answer-cell-right" width="50%">
+                    <span class="percents">
+                      <a href="http://localhost/space/some-poll-set/00001/results.html">50%</a>
+                    </span>
+                    <span class="votes">1</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+        </table>
+      <p>Status: Opened</p>
+      <p>First vote: ...</p>
+      <p>Last vote: ...</p>
+      <p>Total votes: 2</p>
+      </form></div><a class="vote-results" href="http://localhost/space/some-poll-set/00001/results.html">view results</a>
+      </div>
+     ...
+     </html>
+
+We have counters in polling
+
+  >>> polling = component.getUtility(interfaces.IPolling)
+  >>> polling.voteCount.value
+  2
+
+  >>> polling.values()[0].voteCount.value
+  2
+
+  >>> sorted([i.choices for i in polling.values()[0].values()])
+  [{...: [..., u'custom value']}]
+
+
+We can see and vote by anonymous if we have correct settings
+
+  >>> actor = Browser()
+  >>> actor.handleErrors = False
+  >>> actor.open('http://localhost/space/some-poll-set/00001/results.html')
+  >>> print actor.contents
+  <html>
+  ...
+  <table width="100%" cellspacing="0" cellpadding="0" border="0">
+    <tbody>
+      <tr>
+        <td height="10" class="poll-results-answer-cell" width="50%" />
+        <td valign="center" class="poll-results-answer-cell-right" width="50%">
+          <span class="percents">
+            <a href="http://localhost/space/some-poll-set/00001/results.html">50%</a>
+          </span>
+          <span class="votes">1</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  ...
+  </html>
+
+We change setting to only voted users
+
+  >>> admin.open('http://localhost/space/some-poll-set/00001/context.html/content')
+  >>> admin.getControl('Show results').displayValue = ['Voted users']
+  >>> admin.getControl(name='content.edit.buttons.save').click()
+
+  >>> actor.open('http://localhost/space/some-poll-set/00001/results.html')
+  >>> print actor.contents
+  <html>
+  ...
+  ...Sorry, you can't view results for this poll...
+  ...
+  </html>
+
+
+We change setting to not to show results
+
+  >>> admin.open('http://localhost/space/some-poll-set/00001/context.html/content')
+  >>> admin.getControl('Show results').displayValue = ["Don't show"]
+  >>> admin.getControl(name='content.edit.buttons.save').click()
+
+  >>> admin.open('http://localhost/space/some-poll-set/00001/results.html')
+  >>> print actor.contents
+  <html>
+  ...
+  ...Sorry, you can't view results for this poll...
+  ...
+  </html>
+
+
+  >>> admin.open('http://localhost/space/some-poll-set/00001/context.html/content')
+  >>> admin.getControl('Show results').displayValue = ["Public"]
+  >>> admin.getControl(name='content.edit.buttons.save').click()
+
+
+Portlet
+-------
+
+change portlet settings
+
+    >>> actor = Browser()
+    >>> actor.handleErrors = False
+    >>> actor.addHeader("Authorization", "Basic mgr:mgrpw")
+    >>> actor.open("http://localhost/++extensions++/")
+    >>> actor.getLink('Portlets').click()
+
+set portlets manager
+
+    >>> actor.getLink('Left column portlets').click()
+    >>> actor.open('http://localhost/++extensions++/portlets/columns.left/?form.widgets.portletIds:list=portlet.poll&form.buttons.save=Save&form.widgets.status=1')
+
+setup portlet
+
+    >>> actor.open('http://localhost/++extensions++/portlets/columns.left/')
+    >>> actor.getLink('Poll').click()
+
+We have no options in select cause no content marked as possible to be selected
+    >>> actor.getControl(name="form.widgets.item:list").options
+    []
+
+So we enable content for portlet
+
+    >>> actor.open('http://localhost/space/some-poll-set/context.html/presentation')
+    >>> actor.getControl(name="portlet.contentitem.widgets.enabled:list").value = ['true']
+    >>> actor.getControl(name="portlet.contentitem.buttons.save").click()
+
+We setup portlet again
+    >>> actor.open('http://localhost/++extensions++/portlets/columns.left/')
+    >>> actor.getLink('Poll').click()
+
+Now we have options in select cause no content marked as possible to be selected
+    >>> actor.getControl(name="form.widgets.item:list").displayOptions
+    ['Space (space)/Some Poll Set (some-poll-set)']
+    >>> actor.getControl(name="form.widgets.item:list").displayValue = ['Space (space)/Some Poll Set (some-poll-set)']
+    >>> actor.getControl(name="form.buttons.save").click()
+    >>> print actor.contents
+    <html>
+    ...
+    <div id="z-portal-statusmessage"><div class="statusMessage">Data successfully updated.</div>
+    ...
+    </html>
+
+check portlet
+
+    >>> user = Browser()
+    >>> user.handleErrors = False
+    >>> user.addHeader("Authorization", "Basic mgr:mgrpw")
+    >>> user.open("http://localhost/test.html")
+    >>> print user.contents
+    <html>
+    ...
+        <table>
+            <tr>
+        <td><div class="z-portlet portlet-poll">
+    <h2 class="z-portlet-header">Some Poll Set</h2>
+      <div class="z-portlet-body">
+        <div class="z-portlet-item">
+          <h2>Some Poll</h2>
+      <div class="poll-description"></div>
+      <div class="poll-body">Some Poll Body</div>
+      <div class="z-form z-form-standard"><form action="http://localhost/test.html" method="post" enctype="multipart/form-data" name="form" id="form">
+      <h2>What?</h2>
+        <table width="100%">
+        <tbody>
+        <tr>
+          <td><span class="poll-results-answer-label">because</span></td>
+        </tr>
+        <tr>
+          <td>
+            <table width="100%" cellspacing="0" cellpadding="0" border="0">
+              <tbody>
+                <tr>
+                  <td height="10" class="poll-results-answer-cell" width="50%" />
+                  <td valign="center" class="poll-results-answer-cell-right" width="50%">
+                    <span class="percents">
+                      <a href="http://localhost/space/some-poll-set/00001/results.html">50%</a>
+                    </span>
+                    <span class="votes">1</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+         <tr>
+          <td><span class="poll-results-answer-label">custom value</span></td>
+        </tr>
+        <tr>
+          <td>
+            <table width="100%" cellspacing="0" cellpadding="0" border="0">
+              <tbody>
+                <tr>
+                  <td height="10" class="poll-results-answer-cell" width="50%" />
+                  <td valign="center" class="poll-results-answer-cell-right" width="50%">
+                    <span class="percents">
+                      <a href="http://localhost/space/some-poll-set/00001/results.html">50%</a>
+                    </span>
+                    <span class="votes">1</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+    </tbody>
+        </table>
+      <p>Status: Opened</p>
+     <p>First vote: ...</p>
+     <p>Last vote: ...</p>
+     <p>Total votes: 2</p>
+    </form></div><a class="vote-results" href="http://localhost/space/some-poll-set/00001/results.html">view results</a>
+    </div>
+      </div>
+      <div class="z-portlet-footer"><!-- --></div>
+    </div></td>
+        <td><div id="z-portal-workspace"><div id="z-portal-viewspace"><div id="z-content"><div>zope.mgr</div>
+    <div>Manager</div></div></div></div></td>
+            </tr>
+          </table>
+    ...
+    </html>
+
+
+We can manage voting through product management interface
+
+  >>> admin.open('http://localhost/settings/')
+  >>> admin.getLink('Products management').click()
+  >>> admin.getLink('Poll').click()
+
+
+We have manage step
+
+  >>> admin.open('http://localhost/space/some-poll-set/00001/context.html')
+  >>> admin.getLink('Manage').click()
+  >>> admin.getControl('Clear results').click()
+  >>> print admin.contents
+  <html>
+  ...
+  <div id="z-portal-statusmessage"><div class="statusMessage">Poll history is clean</div>
+  ...
+  </html>
+
+You can't delete last Poll in set
+
+  >>> admin.open('http://localhost/space/some-poll-set/00001/delete.html')
+  >>> admin.getControl("Delete").click()
+  Traceback (most recent call last):
+  ...
+  UserError: Can't delete last poll in set
+
+
+remove poll set and uninstall product
+
+    >>> admin.open('http://localhost/space/context.html/contents/')
+    >>> admin.getControl(name="ids:list").value = ['pollset']
+    >>> admin.getControl(name="form.buttons.delete").click()
+    >>> admin.getLink('View').click()
+    >>> 'Some Poll Set' in admin.contents
+    False
+
+    >>> admin.open('http://localhost/settings/')
+    >>> admin.getLink('Products management').click()
+    >>> admin.getControl(name="products:list").value = ['poll']
+    >>> admin.getControl('Uninstall').click()
+
+    >>> setSite(None)

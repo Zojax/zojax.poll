@@ -1,0 +1,14 @@
+<html>
+  <body>
+    <div id="z-portal-statusmessage"
+   tal:content="structure provider:statusMessage">
+    </div>
+    <div tal:content="structure pageelement:portal.personalbar"></div>
+    <table>
+        <tr>
+    <td tal:content="structure provider:columns.left"></td>
+    <td tal:content="structure view/render"></td>
+        </tr>
+      </table>
+  </body>
+</html>

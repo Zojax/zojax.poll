@@ -1,0 +1,62 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:zojax="http://namespaces.zope.org/zojax"
+           i18n_domain="zojax.poll">
+
+   <zojax:content
+      schema=".interfaces.IPoll"
+      name="content.poll"
+      title="Poll"
+      class=".poll.Poll"
+      contains="poll.question"
+      containers="content.pollset"
+      description="A poll in the site."
+      type="zojax.content.type.interfaces.IActivePortalType"
+      permission="zojax.poll.AddPoll" />
+
+  <class class=".poll.Poll">
+
+    <implements interface="zojax.activity.interfaces.IActivityAware" />
+    <implements interface="zojax.content.type.interfaces.ISearchableContent" />
+    <implements interface="zojax.content.type.interfaces.IContainerContentsAware" />
+    <implements interface="zojax.content.type.interfaces.IAnnotatableOrder" />
+    <implements interface="zojax.ownership.interfaces.IOwnerAware" />
+    <implements interface="zojax.content.type.interfaces.IContentNamesContainer" />
+
+
+    <require permission="zope.View"
+       attributes="__delitem__"
+       interface=".interfaces.IPoll
+      zope.app.container.interfaces.IReadContainer" />
+
+    <require permission="zojax.poll.AddQuestion"
+       attributes="__setitem__" />
+
+    <require permission="zojax.ModifyContent"
+       set_schema=".interfaces.IPoll" />
+
+   </class>
+
+   <!-- draft content class -->
+   <class class=".poll.PollDraft">
+
+    <require
+       permission="zope.View"
+       set_attributes="step"
+       interface="zojax.content.draft.interfaces.IDraftContent
+      zojax.content.draft.interfaces.IDraftLocation
+      .interfaces.IPollDraft" />
+    <require
+       permission="zojax.ModifyContent"
+       set_schema="zojax.content.draft.interfaces.IDraftContent
+       zojax.content.draft.interfaces.IDraftLocation
+       .interfaces.IPollDraft" />
+
+   </class>
+
+   <zojax:draft
+      content="content.poll"
+      publish="zojax.poll.AddPoll"
+      submit="zojax.poll.SubmitPoll"
+      class=".poll.PollDraft" />
+
+</configure>

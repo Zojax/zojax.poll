@@ -1,0 +1,14 @@
+<tal:block i18n:domain="zojax.poll">
+ <tal:block condition="not:view/hasVoted">
+  <tal:block content="structure pagelet:+vote" />
+ </tal:block>
+
+ <tal:block condition="view/showResults">
+  <tal:block content="structure pagelet:+results" />
+ </tal:block>
+
+ <a tal:condition="view/showResultsLink"
+    tal:attributes="href string:${context/@@absolute_url}/results.html"
+    class="vote-results"
+    i18n:translate="">view results</a>
+</tal:block>

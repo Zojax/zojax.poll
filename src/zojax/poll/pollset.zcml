@@ -1,0 +1,44 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:zojax="http://namespaces.zope.org/zojax"
+           i18n_domain="zojax.poll">
+
+   <zojax:content
+      schema=".interfaces.IPollSet"
+      name="content.pollset"
+      title="Poll Set"
+      class=".pollset.PollSet"
+      contains="content.poll"
+      description="Set of Polls"
+      type="zojax.content.type.interfaces.IActivePortalType
+     zojax.content.space.interfaces.IContentSpaceType"
+      permission="zojax.poll.AddPollSet" />
+
+   <class class=".pollset.PollSet">
+
+       <implements interface="zojax.extensions.interfaces.IExtensible" />
+       <implements interface="zojax.content.type.interfaces.IShareableContent" />
+       <implements interface="zojax.content.type.interfaces.ISearchableContent" />
+       <implements interface="zojax.content.type.interfaces.ITitleBasedName" />
+       <implements
+          interface="zojax.content.type.interfaces.IContainerContentsAware" />
+       <implements interface="zojax.portlets.contentitem.interfaces.IContentItemPortletable" />
+
+
+       <require permission="zope.View"
+          interface=".interfaces.IPollSet
+         zope.app.container.interfaces.IReadContainer" />
+
+       <require permission="zojax.ModifyContent"
+          attributes="__delitem__"
+          set_schema=".interfaces.IPollSet" />
+
+       <require permission="zojax.poll.AddPoll"
+          attributes="__setitem__" />
+
+   </class>
+
+
+  <!-- Name chooser -->
+  <adapter factory=".pollset.PollSetNameChooser" />
+
+</configure>

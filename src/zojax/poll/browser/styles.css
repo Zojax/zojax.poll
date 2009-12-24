@@ -1,0 +1,28 @@
+/* zrt-cssregistry: */
+
+@media all {
+
+  .poll-results-answer-label  {
+    font-family: Tahoma; font-size: 8.5pt; color: rgb(0, 0, 0);
+  }
+
+  .poll-results-answer-cell  {
+    background-image: url(poll-images/chart.gif); background-repeat: repeat-x; background-position: center center;
+  }
+
+  .poll-results-answer-cell-right  {
+    border: 0pt none ; font-size: 8px; font-family: Tahoma;
+  }
+
+  .poll-results-answer-cell-right .percents {
+    font-family: Tahoma; color: rgb(0, 0, 0); font-weight: bold; font-size: 8px;
+  }
+
+  .poll-results-answer-cell-right .percents a {
+    text-decoration: underline;
+  }
+
+  .poll-results-answer-cell-right .votes {
+    font-family: Tahoma; color: rgb(0, 0, 0); font-weight: bold; font-size: 8px;
+  }
+}

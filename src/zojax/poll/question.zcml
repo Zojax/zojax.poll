@@ -1,0 +1,37 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:zojax="http://namespaces.zope.org/zojax"
+           i18n_domain="zojax.poll">
+
+   <zojax:content
+      schema=".interfaces.IPollQuestion"
+      name="poll.question"
+      title="Poll Question"
+      class=".question.PollQuestion"
+      description="Poll question."
+      containers="content.poll"
+      contains="poll.answer"
+      type="zojax.content.type.interfaces.IActivePortalType"
+      permission="zojax.poll.AddQuestion" />
+
+  <class class=".question.PollQuestion">
+
+    <implements interface="zojax.content.type.interfaces.IContentNamesContainer" />
+    <implements interface="zojax.ownership.interfaces.IInheritOwnership" />
+    <implements interface="zojax.content.type.interfaces.IAnnotatableOrder" />
+    <implements interface="zojax.content.type.interfaces.ITitleBasedName" />
+    <implements interface="zojax.content.type.interfaces.IContainerContentsAware" />
+
+    <require permission="zope.View"
+       attributes="__delitem__"
+       interface=".interfaces.IPollQuestion
+      zope.app.container.interfaces.IReadContainer" />
+
+    <require permission="zojax.poll.AddAnswer"
+       attributes="__setitem__" />
+
+    <require permission="zojax.ModifyContent"
+       set_schema=".interfaces.IPollQuestion" />
+
+   </class>
+
+</configure>

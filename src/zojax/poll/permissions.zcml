@@ -1,0 +1,120 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:zcml="http://namespaces.zope.org/zcml"
+   xmlns:zojax="http://namespaces.zope.org/zojax"
+   i18n_domain="zojax.poll">
+
+  <permission
+     id="zojax.poll.AddPollSet"
+     title="Add poll set" />
+
+  <permission
+     id="zojax.poll.AddPoll"
+     title="Add poll" />
+
+  <permission
+     id="zojax.poll.SubmitPoll"
+     title="Submit poll"
+     description="Allow submit poll to poll set." />
+
+  <permission
+     id="zojax.poll.AddQuestion"
+     title="Add poll question" />
+
+  <permission
+     id="zojax.poll.ManageQuestion"
+     title="Manage poll question" />
+
+  <permission
+     id="zojax.poll.AddAnswer"
+     title="Add poll answer" />
+
+  <permission
+     id="zojax.poll.ManageAnswer"
+     title="Manage poll answer" />
+
+  <permission
+     id="zojax.poll.ManagePoll"
+     title="Manage poll" />
+
+  <permission
+     id="zojax.poll.VotePoll"
+     title="Vote in poll" />
+
+  <registerIn registry="zojax.product.poll">
+
+    <!-- poll set permissions -->
+    <zojax:permission
+       permission="zojax.poll.AddPollSet"
+       category="zojax.content.permissions.interfaces.IAddPermission" />
+
+    <zojax:contentpermission
+       permission="zojax.poll.AddPollSet"
+       contenttype="content.pollset"
+       managepermission="zojax.ManageContentPermission"
+       category="zojax.content.permissions.interfaces.IAddPermission" />
+
+    <!-- poll permissions -->
+    <zojax:permission
+       permission="zojax.poll.AddPoll"
+       category="zojax.content.permissions.interfaces.IAddPermission" />
+
+    <zojax:permission
+       permission="zojax.poll.VotePoll"
+       category="zojax.content.permissions.interfaces.IGeneralSettingsPermission" />
+
+    <zojax:permission
+       permission="zojax.poll.ManagePoll"
+       category="zojax.content.permissions.interfaces.IManagementPermission" />
+
+    <zojax:permission
+       permission="zojax.poll.SubmitPoll"
+       category="zojax.content.permissions.interfaces.ISubmitPermission" />
+
+    <zojax:contentpermission
+       contenttype="content.poll"
+       permission="zojax.poll.AddPoll"
+       managepermission="zojax.ManageContentPermission"
+       category="zojax.content.permissions.interfaces.IAddPermission" />
+
+    <zojax:contentpermission
+       contenttype="content.poll"
+       permission="zojax.poll.VotePoll"
+       managepermission="zojax.ManageContentPermission"
+       category="zojax.content.permissions.interfaces.IGeneralSettingsPermission" />
+
+    <zojax:contentpermission
+       contenttype="content.poll"
+       permission="zojax.poll.SubmitPoll"
+       managepermission="zojax.ManageContentPermission"
+       category="zojax.content.permissions.interfaces.ISubmitPermission" />
+
+    <!-- question -->
+    <zojax:permission
+       permission="zojax.poll.AddQuestion"
+       category="zojax.content.permissions.interfaces.IAddPermission" />
+
+    <zojax:contentpermission
+       contenttype="poll.question"
+       permission="zojax.poll.AddQuestion"
+       managepermission="zojax.ManageContentPermission"
+       category="zojax.content.permissions.interfaces.IAddPermission" />
+
+    <!-- question -->
+    <zojax:permission
+       permission="zojax.poll.AddAnswer"
+       category="zojax.content.permissions.interfaces.IAddPermission" />
+
+    <zojax:contentpermission
+       contenttype="poll.answer"
+       permission="zojax.poll.AddAnswer"
+       managepermission="zojax.ManageContentPermission"
+       category="zojax.content.permissions.interfaces.IAddPermission" />
+
+  </registerIn>
+
+  <subscriber
+     factory=".permissions.forumPermissionContentTypes"
+     provides="zojax.content.permissions.interfaces.IPermissionContentTypes" />
+
+</configure>

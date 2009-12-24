@@ -1,0 +1,16 @@
+<div class="z-portlet portlet-poll">
+
+  <h2 class="z-portlet-header" tal:content="context/contentTitle"
+      tal:condition="not: context/label">Portlet Header</h2>
+  <h2 class="z-portlet-header" tal:content="context/label"
+      tal:condition="context/label">Portlet Header</h2>
+
+  <div class="z-portlet-body">
+    <div class="z-portlet-item" tal:define="context context/content">
+      <tal:block content="structure pagelet:content.type.preview+portlet.poll" />
+    </div>
+  </div>
+
+  <div class="z-portlet-footer"><!-- --></div>
+
+</div>

@@ -1,0 +1,56 @@
+<tal:block define="results context/getResults;
+                   voteCount results/voteCount;
+                   lastVote results/lastVote;
+                   firstVote results/firstVote;
+                   results results/results;
+                   url string:${context/context/@@absolute_url}/results.html"
+             i18n:domain="zojax.poll">
+
+ <tal:block condition="results">
+
+  <div class="poll-logo" tal:condition="context/context/logo">
+   <img tal:attributes="src string:${context/context/@@absolute_url}/++attribute++logo" />
+  </div>
+
+  <tal:block tal:repeat="question results">
+    <h2 tal:content="question/question/title" i18n:translate="">Poll question</h2>
+    <table width="100%">
+    <tbody>
+    <tal:block tal:repeat="a question/answers">
+    <tr>
+      <td><span class="poll-results-answer-label"
+                tal:content="a/title"
+                i18n:translate="">Weekly</span></td>
+    </tr>
+    <tr tal:define="prc python:'%d%%'%(a.results[1]*100);
+                    lprc python:'%d%%'%((1-a['results'][1])*100,);
+                    vts python:a.results[0]">
+      <td>
+        <table width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tbody>
+            <tr>
+              <td tal:attributes="width prc" height="10" class="poll-results-answer-cell" />
+              <td tal:attributes="width lprc" valign="center" class="poll-results-answer-cell-right">
+                <span class="percents">
+                  <a tal:attributes="href url" tal:content="prc">45%</a>
+                </span>
+                <span class="votes" tal:content="python:a.results[0]">7176</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+    </tal:block>
+    </tbody>
+    </table>
+  </tal:block>
+ <p i18n:translate="">Status: <tal:block content="python:context.context.enabled and 'Opened' or 'Closed'" /></p>
+ <p i18n:translate="">First vote: <tal:block content="structure formatter:fancyDatetime:firstVote" i18n:name="date" /></p>
+ <p i18n:translate="">Last vote: <tal:block content="structure formatter:fancyDatetime:lastVote" i18n:name="date" /></p>
+ <p i18n:translate="">Total votes: <tal:block i18n:name="count" content="voteCount" /></p>
+ </tal:block>
+
+ <p tal:condition="not:results" i18n:translate="">No votes for this poll.</p>
+
+</tal:block>

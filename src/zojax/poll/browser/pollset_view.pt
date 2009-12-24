@@ -1,0 +1,4 @@
+<tal:block i18n:domain="zojax.poll">
+  <tal:block define="context context/lastPoll"
+             content="structure pagelet:+poll" />
+</tal:block>

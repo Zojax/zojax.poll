@@ -1,0 +1,7 @@
+<tal:block define="context context/lastPoll">
+  <h2 tal:content="context/title" />
+  <div class="poll-description" tal:content="context/description" />
+  <div class="poll-body" tal:content="structure context/text/cooked"
+       tal:condition="context/text" />
+  <tal:block content="structure pagelet:+poll" />
+</tal:block>

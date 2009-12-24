@@ -1,0 +1,29 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:zojax="http://namespaces.zope.org/zojax"
+           i18n_domain="zojax.poll">
+
+   <zojax:content
+      schema=".interfaces.IVoteRecord"
+      name="poll.voterecord"
+      title="Vote Record"
+      class=".voterecord.VoteRecord"
+      description="Poll vote record."
+      containers="poll.questionrecord"
+      type="zojax.content.type.interfaces.IInactiveType"
+      />
+
+  <class class=".voterecord.VoteRecord">
+
+    <implements interface="zope.annotation.interfaces.IAttributeAnnotatable" />
+
+    <require permission="zope.View"
+       interface=".interfaces.IVoteRecord" />
+
+    <require permission="zojax.ModifyContent"
+       set_schema=".interfaces.IVoteRecord" />
+
+   </class>
+
+   <subscriber handler=".voterecord.recordIdAddedHandler" />
+
+</configure>

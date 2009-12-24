@@ -1,0 +1,30 @@
+=============
+Browser tests
+=============
+
+    >>> from zope.interface import verify
+    >>> from zope.app.component.hooks import setSite
+    >>> from zope.app.security.interfaces import IAuthentication
+    >>> from zope.publisher.browser import TestRequest
+    >>> from zope.security.management import newInteraction, endInteraction
+    >>> from zojax.product import poll as pollProduct
+    >>> from zojax.blogger import workspace, interfaces
+
+    >>> root = getRootFolder()
+    >>> setSite(root)
+    >>> sm = root.getSiteManager()
+    >>> sm.__bases__ = (pollProduct,) + sm.__bases__
+    >>> request = TestRequest()
+    >>> request.setPrincipal(sm.getUtility(IAuthentication).getPrincipal('zope.mgr'))
+    >>> newInteraction(request)
+
+
+Uninstall poll
+---------------
+
+    >>> bases = list(sm.__bases__)
+    >>> bases.remove(pollProduct)
+    >>> sm.__bases__ = tuple(bases)
+
+    >>> endInteraction()
+    >>> setSite(None)

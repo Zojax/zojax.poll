@@ -1,0 +1,49 @@
+<tal:block define="poll_enabled context/context/enabled"
+             i18n:domain="zojax.poll">
+
+ <div class="poll-logo" tal:condition="context/context/logo">
+   <img tal:attributes="src string:${context/context/@@absolute_url}/++attribute++logo" />
+ </div>
+
+ <b tal:condition="not:poll_enabled" i18n:translate="">Sorry, this poll is disabled now<br/><br/></b>
+
+ <fieldset tal:repeat="question context/questions">
+  <legend><span tal:content="question/question/title" i18n:translate="">Poll question</span></legend>
+  <div class="poll-question-description" tal:content="question/question/description"
+       tal:condition="question/question/description" />
+  <tal:block condition="python:question.question.numberOfChoices==1">
+   <div class="poll-answer" tal:repeat="a question/answers">
+    <input type="radio" name="answers.value"
+           tal:attributes="value a/id;
+                           id string:${question/id}-answers-value-${a/id};
+                           name string:${question/id}.answers.value:list;
+                           disabled not:poll_enabled" />
+    <label tal:content="a/answer/title" tal:attributes="for string:${question/id}-answers-value-${a/id}"/><br/>
+   </div>
+  </tal:block>
+
+  <tal:block condition="python:question.question.numberOfChoices!=1">
+   <tal:block tal:repeat="a question/answers">
+    <input type="checkbox"
+           tal:attributes="name string:${question/id}.answers.value:list;
+                           disabled not:poll_enabled;
+                           id string:${question/id}-answers-value-${a/id};
+                           value a/id" />
+    <label tal:content="a/answer/title" tal:attributes="for string:${question/id}-answers-value-${a/id}"/><br/>
+   </tal:block>
+  </tal:block>
+
+  <tal:block tal:condition="question/question/allowCustom" i18n:translate="">
+   <hr />
+   <input type="text"
+          name="custom_answer"
+          tal:attributes="disabled not:poll_enabled;
+                          name string:${question/id}.custom_answer;
+                          id string:${question/id}-custom_answer" />
+    <label tal:attributes="for string:${question/id}-custom_answer">
+   Not agree with choices? Enter your opinion in box.
+   </label>
+  </tal:block>
+ </fieldset>
+
+</tal:block>

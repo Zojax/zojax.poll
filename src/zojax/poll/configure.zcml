@@ -1,0 +1,50 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:zojax="http://namespaces.zope.org/zojax"
+           i18n_domain="zojax.poll">
+
+   <zojax:product
+     name="poll"
+     title="Poll"
+     description="Polls for zojax."
+     class=".polling.Polling"
+     schema=".interfaces.IPolling"
+     configurable="true" />
+
+   <include file="permissions.zcml" />
+
+   <registerIn registry="zojax.product.poll">
+
+     <!-- answer -->
+     <include file="answer.zcml" />
+
+     <!-- question -->
+     <include file="question.zcml" />
+
+     <!-- poll -->
+     <include file="poll.zcml" />
+
+     <!-- set -->
+     <include file="pollset.zcml" />
+
+     <!-- vote record -->
+     <include file="voterecord.zcml" />
+
+     <!-- poll record -->
+     <include file="pollrecord.zcml" />
+
+     <include package=".browser" />
+
+     <include package=".portlets" />
+
+   </registerIn>
+
+   <utility
+     name="zojax.poll.showResults"
+     component=".vocabulary.showResultsVocabulary"
+     provides="zope.schema.interfaces.IVocabularyFactory" />
+
+   <!-- styles -->
+  <include package=".browser" file="styles.zcml" />
+
+
+</configure>

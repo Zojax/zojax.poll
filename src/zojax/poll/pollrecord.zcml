@@ -1,0 +1,50 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:zojax="http://namespaces.zope.org/zojax"
+           i18n_domain="zojax.poll">
+
+   <zojax:content
+      schema=".interfaces.IPollRecord"
+      name="poll.pollrecord"
+      title="Poll Record"
+      class=".pollrecord.PollRecord"
+      description="Poll record."
+      contains="poll.voterecord"
+      type="zojax.content.type.interfaces.IInactiveType"
+      />
+
+  <class class=".pollrecord.PollRecord">
+
+    <implements interface="zope.annotation.interfaces.IAttributeAnnotatable" />
+
+    <require permission="zope.View"
+       interface=".interfaces.IPollRecord
+                  zope.app.container.interfaces.IReadContainer" />
+
+    <require permission="zojax.ModifyContent"
+       set_schema=".interfaces.IPollRecord"
+       interface="zope.app.container.interfaces.IWriteContainer" />
+
+   </class>
+
+   <class class=".pollrecord.QuestionRecord">
+
+    <require permission="zope.View"
+       interface=".interfaces.IQuestionRecord" />
+
+    <require permission="zojax.ModifyContent"
+       set_schema=".interfaces.IQuestionRecord" />
+
+   </class>
+   
+  <subscriber for=".interfaces.IPollRecord
+                   zope.app.container.interfaces.IObjectAddedEvent"
+              handler=".pollrecord.pollRecordHandler" />
+  <subscriber for=".interfaces.IPollRecord
+                   zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+              handler=".pollrecord.pollRecordHandler" />
+  <subscriber for=".interfaces.IPollRecord
+                   zope.app.container.interfaces.IObjectRemovedEvent"
+              handler=".pollrecord.pollRecordHandler" />
+             
+
+</configure>

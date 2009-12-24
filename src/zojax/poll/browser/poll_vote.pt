@@ -1,0 +1,3 @@
+<tal:block i18n:domain="zojax.poll">
+  <tal:block content="structure pagelet:+vote" />
+</tal:block>

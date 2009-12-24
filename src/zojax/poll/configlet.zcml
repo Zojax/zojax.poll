@@ -1,0 +1,42 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:zojax="http://namespaces.zope.org/zojax"
+   i18n_domain="zojax.poll">
+
+  <zojax:configlet
+     name="ui.portalpolls"
+     title="Portal polls"
+     description="Portal polls configuration."
+     class=".configlet.PortalPollsConfiglet"
+     schema=".interfaces.IPortalPollsConfiglet" />
+
+  <utility
+     name="portal.polls"
+     factory=".vocabulary.PollsVocabulary" />
+
+  <utility
+     name="portal.toplevelpolls"
+     factory=".vocabulary.ToplevelPollsVocabulary" />
+
+  <!-- configlet publisher -->
+  <adapter
+     for=".interfaces.IPortalPollsConfiglet *"
+     factory="z3c.traverser.traverser.PluggableTraverser"
+     provides="zope.publisher.interfaces.IPublishTraverse" />
+
+  <!-- publisher plugin -->
+  <subscriber
+     provides="z3c.traverser.interfaces.ITraverserPlugin"
+     factory=".configlet.TraverserPlugin" />
+
+  <!-- simple poll -->
+  <class class=".simplepoll.PortalPoll">
+    <allow interface=".interfaces.ISimplePortalPoll" />
+    <require
+       permission="zojax.Configure"
+       set_schema=".interfaces.ISimplePortalPoll" />
+  </class>
+
+  <include file="extension.zcml" />
+
+</configure>

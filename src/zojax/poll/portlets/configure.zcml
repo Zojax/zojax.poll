@@ -1,0 +1,30 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:zojax="http://namespaces.zope.org/zojax"
+   i18n_domain="zojax.portlets">
+
+  <zojax:portlet
+     name="portlet.poll"
+     title="Poll"
+     description="Show last poll in poll set."
+     class=".portlet.PollPortlet"
+     schema=".interfaces.IPollPortlet" />
+
+  <zojax:pagelet
+     type="portlet.view"
+     template="portlet.pt"
+     for=".interfaces.IPollPortlet" />
+
+  <utility
+     name="zojax.poll.portlet.poll.items"
+     factory=".vocabulary.PollItems" />
+
+  <!--   portlet item view -->
+  <zojax:pagelet
+     name="portlet.poll"
+     type="content.type.preview"
+     for="..interfaces.IPollSet"
+     template="item.pt"
+     />
+
+</configure>

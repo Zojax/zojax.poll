@@ -1,0 +1,118 @@
+<configure xmlns="http://namespaces.zope.org/browser"
+           xmlns:zojax="http://namespaces.zope.org/zojax"
+           i18n_domain="zojax.poll">
+
+  <zojax:pagelet
+     for="..interfaces.IPollSet"
+     name="index.html"
+     template="pollset_view.pt"
+     provides="zojax.content.type.interfaces.IContentView"
+     permission="zope.View" />
+
+  <defaultView
+     for="..interfaces.IPollSet"
+     name="index.html" />
+
+  <zojax:pagelet
+     for="..interfaces.IPoll"
+     name="index.html"
+     class=".poll.PollView"
+     template="poll_view.pt"
+     provides="zojax.content.type.interfaces.IContentView"
+     permission="zope.View" />
+
+  <zojax:pagelet
+     for="..interfaces.IPoll"
+     name="poll"
+     type="pagelet"
+     template="poll_view.pt"
+     class=".poll.PollView" />
+
+  <zojax:pagelet
+     for=".poll.PollView"
+     type="form.viewspace"
+     template="voteform.pt"
+     />
+
+  <defaultView
+     for="..interfaces.IPoll"
+     name="index.html" />
+
+  <zojax:pagelet
+     for="..interfaces.IPoll"
+     name="results.html"
+     template="poll_results.pt"
+     class=".poll.PollView"
+     provides="zojax.content.type.interfaces.IContentView"
+     permission="zope.View" />
+
+  <zojax:pagelet
+     for="..interfaces.IPoll"
+     name="vote.html"
+     template="poll_vote.pt"
+     class=".poll.PollView"
+     provides="zojax.content.type.interfaces.IContentView"
+     permission="zojax.poll.VotePoll" />
+
+  <zojax:pagelet
+     for="..interfaces.IPoll
+     zojax.content.forms.interfaces.IEditContentWizard"
+     name="manage"
+     title="Manage"
+     type="wizard.step"
+     class=".poll.PollManagementView"
+     permission="zojax.poll.ManagePoll"
+     weight="100" />
+
+  <zojax:pagelet
+     for="..interfaces.IPoll
+          .poll.PollManagementView"
+     name="vote"
+     title="Vote"
+     type="form.subform"
+     template="poll_vote.pt"
+     class=".poll.PollView"
+     permission="zojax.poll.VotePoll"
+     weight="100" />
+
+  <zojax:pagelet
+     for="..interfaces.IPoll
+          .poll.PollManagementView"
+     name="results"
+     title="Results"
+     type="form.subform"
+     template="poll_results.pt"
+     class=".poll.PollResultsView"
+     weight="101" />
+
+  <zojax:pagelet
+     for="..interfaces.IPoll"
+     name="results"
+     type="pagelet"
+     template="results.pt"
+     class=".poll.PollResultsView" />
+
+  <zojax:pagelet
+     for=".poll.PollResultsView"
+     type="form.viewspace"
+     template="resultsform.pt"
+     />
+
+  <zojax:pagelet
+     for="..interfaces.IPoll"
+     name="vote"
+     type="pagelet"
+     template="vote.pt"
+     class=".poll.PollView" />
+
+   <!-- poll draft -->
+  <zojax:pagelet
+     name="polldraft"
+     type="form.subform"
+     for="zojax.content.draft.interfaces.IDraftedContent
+          zojax.content.forms.content.ContentStep"
+     class=".content.PollDraftForm"
+     permission="zojax.ModifyContent"
+     weight="25" />
+
+</configure>
