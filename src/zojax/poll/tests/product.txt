@@ -8,7 +8,7 @@ Browser tests
     >>> from zope.publisher.browser import TestRequest
     >>> from zope.security.management import newInteraction, endInteraction
     >>> from zojax.product import poll as pollProduct
-    >>> from zojax.blogger import workspace, interfaces
+    >>> from zojax.poll import interfaces
 
     >>> root = getRootFolder()
     >>> setSite(root)

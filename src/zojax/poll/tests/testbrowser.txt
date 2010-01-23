@@ -242,22 +242,6 @@ setup portlet
 
     >>> actor.open('http://localhost/++extensions++/portlets/columns.left/')
     >>> actor.getLink('Poll').click()
-
-We have no options in select cause no content marked as possible to be selected
-    >>> actor.getControl(name="form.widgets.item:list").options
-    []
-
-So we enable content for portlet
-
-    >>> actor.open('http://localhost/space/some-poll-set/context.html/presentation')
-    >>> actor.getControl(name="portlet.contentitem.widgets.enabled:list").value = ['true']
-    >>> actor.getControl(name="portlet.contentitem.buttons.save").click()
-
-We setup portlet again
-    >>> actor.open('http://localhost/++extensions++/portlets/columns.left/')
-    >>> actor.getLink('Poll').click()
-
-Now we have options in select cause no content marked as possible to be selected
     >>> actor.getControl(name="form.widgets.item:list").displayOptions
     ['Space (space)/Some Poll Set (some-poll-set)']
     >>> actor.getControl(name="form.widgets.item:list").displayValue = ['Space (space)/Some Poll Set (some-poll-set)']
