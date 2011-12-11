@@ -13,14 +13,13 @@
   </div>
 
   <tal:block tal:repeat="question results">
-    <h2 tal:content="question/question/title" i18n:translate="">Poll question</h2>
+    <h2 tal:content="question/question/title">Poll question</h2>
     <table width="100%">
     <tbody>
     <tal:block tal:repeat="a question/answers">
     <tr>
       <td><span class="poll-results-answer-label"
-                tal:content="a/title"
-                i18n:translate="">Weekly</span></td>
+                tal:content="a/title">Weekly</span></td>
     </tr>
     <tr tal:define="prc python:'%d%%'%(a.results[1]*100);
                     lprc python:'%d%%'%((1-a['results'][1])*100,);
@@ -45,7 +44,7 @@
     </tbody>
     </table>
   </tal:block>
- <p i18n:translate="">Status: <tal:block content="python:context.context.enabled and 'Opened' or 'Closed'" /></p>
+ <p i18n:translate="">Status: <tal:block content="python:context.context.enabled and 'Opened' or 'Closed'" i18n:name="opened_closed" /></p>
  <p i18n:translate="">First vote: <tal:block content="structure formatter:fancyDatetime:firstVote" i18n:name="date" /></p>
  <p i18n:translate="">Last vote: <tal:block content="structure formatter:fancyDatetime:lastVote" i18n:name="date" /></p>
  <p i18n:translate="">Total votes: <tal:block i18n:name="count" content="voteCount" /></p>

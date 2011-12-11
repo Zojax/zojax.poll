@@ -8,7 +8,7 @@
  <b tal:condition="not:poll_enabled" i18n:translate="">Sorry, this poll is disabled now<br/><br/></b>
 
  <fieldset tal:repeat="question context/questions">
-  <legend><span tal:content="question/question/title" i18n:translate="">Poll question</span></legend>
+  <legend><span tal:content="question/question/title">Poll question</span></legend>
   <div class="poll-question-description" tal:content="question/question/description"
        tal:condition="question/question/description" />
   <tal:block condition="python:question.question.numberOfChoices==1">
@@ -33,14 +33,14 @@
    </tal:block>
   </tal:block>
 
-  <tal:block tal:condition="question/question/allowCustom" i18n:translate="">
+  <tal:block tal:condition="question/question/allowCustom">
    <hr />
    <input type="text"
           name="custom_answer"
           tal:attributes="disabled not:poll_enabled;
                           name string:${question/id}.custom_answer;
                           id string:${question/id}-custom_answer" />
-    <label tal:attributes="for string:${question/id}-custom_answer">
+    <label tal:attributes="for string:${question/id}-custom_answer" i18n:translate="">
    Not agree with choices? Enter your opinion in box.
    </label>
   </tal:block>
