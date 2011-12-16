@@ -1,0 +1,302 @@
+##############################################################################
+#
+# Copyright (c) 2003-2004 Zope Corporation and Contributors.
+# All Rights Reserved.
+#
+# This software is subject to the provisions of the Zope Public License,
+# Version 2.1 (ZPL).  A copy of the ZPL should accompany this distribution.
+# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY AND ALL EXPRESS OR IMPLIED
+# WARRANTIES ARE DISCLAIMED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
+# FOR A PARTICULAR PURPOSE.
+#
+##############################################################################
+msgid ""
+msgstr ""
+"Project-Id-Version: Development/Unknown\n"
+"POT-Creation-Date: Sun Dec 11 11:02:18 2011\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Zope 3 Developers <zope3-dev@zope.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: zope/app/locales/extract.py\n"
+
+#: src/zojax/poll/answer.zcml:5
+msgid "Poll Answer"
+msgstr ""
+
+#: src/zojax/poll/answer.zcml:5
+msgid "Poll answer."
+msgstr ""
+
+#: src/zojax/poll/browser/poll.py:165
+#: src/zojax/poll/permissions.zcml:36
+msgid "Manage poll"
+msgstr ""
+
+#: src/zojax/poll/browser/poll.py:167
+msgid "Clear results"
+msgstr ""
+
+#: src/zojax/poll/browser/poll.py:170
+msgid "Poll history is clean"
+msgstr ""
+
+#: src/zojax/poll/browser/poll.py:39
+msgid "Vote >"
+msgstr ""
+
+#: src/zojax/poll/browser/poll.py:64
+msgid "Your vote saved, thank you!"
+msgstr ""
+
+#: src/zojax/poll/browser/poll.py:67
+msgid "Please make choice"
+msgstr ""
+
+#: src/zojax/poll/browser/poll.py:70
+msgid "You cannot vote on this poll"
+msgstr ""
+
+#: src/zojax/poll/browser/poll_results.pt:4
+msgid "Sorry, you can't view results for this poll"
+msgstr ""
+
+#: src/zojax/poll/browser/poll_view.pt:10
+msgid "view results"
+msgstr ""
+
+#: src/zojax/poll/browser/resultsform.pt:47
+msgid "Status: ${opened_closed}"
+msgstr ""
+
+#: src/zojax/poll/browser/resultsform.pt:48
+msgid "First vote: ${date}"
+msgstr ""
+
+#: src/zojax/poll/browser/resultsform.pt:49
+msgid "Last vote: ${date}"
+msgstr ""
+
+#: src/zojax/poll/browser/resultsform.pt:50
+msgid "Total votes: ${count}"
+msgstr ""
+
+#: src/zojax/poll/browser/resultsform.pt:53
+msgid "No votes for this poll."
+msgstr ""
+
+#: src/zojax/poll/browser/voteform.pt:43
+msgid "Not agree with choices? Enter your opinion in box."
+msgstr ""
+
+#: src/zojax/poll/browser/voteform.pt:8
+msgid "Sorry, this poll is disabled now<br /><br />"
+msgstr ""
+
+#: src/zojax/poll/configure.zcml:5
+msgid "Polls for zojax."
+msgstr ""
+
+#: src/zojax/poll/configure.zcml:5
+#: src/zojax/poll/poll.zcml:5
+#: src/zojax/poll/portlets/configure.zcml:6
+msgid "Poll"
+msgstr ""
+
+#: src/zojax/poll/interfaces.py:106
+msgid "Description"
+msgstr ""
+
+#: src/zojax/poll/interfaces.py:107
+msgid "Question description."
+msgstr ""
+
+#: src/zojax/poll/interfaces.py:131
+msgid "Answer"
+msgstr ""
+
+#: src/zojax/poll/interfaces.py:132
+msgid "Answer text."
+msgstr ""
+
+#: src/zojax/poll/interfaces.py:145
+msgid "First Poll"
+msgstr ""
+
+#: src/zojax/poll/interfaces.py:147
+msgid "Last Poll"
+msgstr ""
+
+#: src/zojax/poll/interfaces.py:153
+msgid "User choices"
+msgstr ""
+
+#: src/zojax/poll/interfaces.py:159
+#: src/zojax/poll/interfaces.py:169
+#: src/zojax/poll/interfaces.py:185
+msgid "Vote count"
+msgstr ""
+
+#: src/zojax/poll/interfaces.py:161
+#: src/zojax/poll/interfaces.py:171
+msgid "First vote"
+msgstr ""
+
+#: src/zojax/poll/interfaces.py:163
+#: src/zojax/poll/interfaces.py:173
+msgid "Last vote"
+msgstr ""
+
+#: src/zojax/poll/interfaces.py:20
+msgid "Poll enabled"
+msgstr ""
+
+#: src/zojax/poll/interfaces.py:53
+#: src/zojax/poll/interfaces.py:142
+msgid "Body text"
+msgstr ""
+
+#: src/zojax/poll/interfaces.py:56
+msgid "Logo"
+msgstr ""
+
+#: src/zojax/poll/interfaces.py:59
+msgid "Show results"
+msgstr ""
+
+#: src/zojax/poll/interfaces.py:70
+#: src/zojax/poll/interfaces.py:99
+msgid "Question"
+msgstr ""
+
+#: src/zojax/poll/interfaces.py:71
+#: src/zojax/poll/interfaces.py:100
+msgid "Question text."
+msgstr ""
+
+#: src/zojax/poll/interfaces.py:77
+msgid "Answers"
+msgstr ""
+
+#: src/zojax/poll/interfaces.py:78
+msgid "Poll answers"
+msgstr ""
+
+#: src/zojax/poll/interfaces.py:81
+#: src/zojax/poll/interfaces.py:112
+msgid "Enable custom choices"
+msgstr ""
+
+#: src/zojax/poll/interfaces.py:82
+#: src/zojax/poll/interfaces.py:113
+msgid ""
+"Set it, if you want to allow\n"
+"users to enter custom choices for this question (showing input box under predefined\n"
+"choices)"
+msgstr ""
+
+#: src/zojax/poll/interfaces.py:90
+#: src/zojax/poll/interfaces.py:121
+msgid "Number of choices allowed"
+msgstr ""
+
+#: src/zojax/poll/permissions.zcml:11
+msgid "Add poll"
+msgstr ""
+
+#: src/zojax/poll/permissions.zcml:15
+msgid "Allow submit poll to poll set."
+msgstr ""
+
+#: src/zojax/poll/permissions.zcml:15
+msgid "Submit poll"
+msgstr ""
+
+#: src/zojax/poll/permissions.zcml:20
+msgid "Add poll question"
+msgstr ""
+
+#: src/zojax/poll/permissions.zcml:24
+msgid "Manage poll question"
+msgstr ""
+
+#: src/zojax/poll/permissions.zcml:28
+msgid "Add poll answer"
+msgstr ""
+
+#: src/zojax/poll/permissions.zcml:32
+msgid "Manage poll answer"
+msgstr ""
+
+#: src/zojax/poll/permissions.zcml:40
+msgid "Vote in poll"
+msgstr ""
+
+#: src/zojax/poll/permissions.zcml:7
+msgid "Add poll set"
+msgstr ""
+
+#: src/zojax/poll/poll.zcml:5
+msgid "A poll in the site."
+msgstr ""
+
+#: src/zojax/poll/pollrecord.zcml:5
+msgid "Poll record."
+msgstr ""
+
+#: src/zojax/poll/pollrecord.zcml:5
+msgid "Poll Record"
+msgstr ""
+
+#: src/zojax/poll/pollset.py:83
+msgid "Can't delete last poll in set"
+msgstr ""
+
+#: src/zojax/poll/pollset.zcml:5
+msgid "Set of Polls"
+msgstr ""
+
+#: src/zojax/poll/portlets/configure.zcml:6
+msgid "Show last poll in poll set."
+msgstr ""
+
+#: src/zojax/poll/portlets/interfaces.py:29
+#: src/zojax/poll/pollset.zcml:5
+msgid "Poll Set"
+msgstr ""
+
+#: src/zojax/poll/portlets/interfaces.py:30
+msgid "Select content item."
+msgstr ""
+
+#: src/zojax/poll/question.zcml:5
+msgid "Poll Question"
+msgstr ""
+
+#: src/zojax/poll/question.zcml:5
+msgid "Poll question."
+msgstr ""
+
+#: src/zojax/poll/vocabulary.py:20
+msgid "Public"
+msgstr ""
+
+#: src/zojax/poll/vocabulary.py:21
+msgid "Voted users"
+msgstr ""
+
+#: src/zojax/poll/vocabulary.py:22
+msgid "Don't show"
+msgstr ""
+
+#: src/zojax/poll/voterecord.zcml:5
+msgid "Poll vote record."
+msgstr ""
+
+#: src/zojax/poll/voterecord.zcml:5
+msgid "Vote Record"
+msgstr ""
+
