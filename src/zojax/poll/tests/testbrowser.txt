@@ -85,18 +85,21 @@ We set order of answers:
 
 Poll form
 
-     >>> admin.open('http://localhost/space/some-poll-set/00001')
-     >>> admin.getControl('because').click()
-     >>> admin.getControl('Not agree with choices? Enter your opinion in box.').value = 'custom value'
-     >>> admin.getControl('Vote').click()
-     >>> print admin.contents
-     <html>
-     <body>
-     ...Your vote saved, thank you!...
-     ...
-     ...<h1 class="z-content-title">Some Poll</h1>...
-     ...
-      <h2>What?</h2>
+    >>> admin.open('http://localhost/space/some-poll-set/00001')
+    >>> admin.getControl('because').click()
+    >>> admin.getControl('Not agree with choices? Enter your opinion in box.').value = 'custom value'
+    >>> admin.getControl('Vote').click()
+    >>> print admin.contents
+    <html>
+      <body>
+        <div id="z-portal-statusmessage"><div class="statusMessage">Your vote saved, thank you!</div>
+    </div>
+    ...
+    </div><h1 class="z-content-title">Some Poll</h1>
+      <div class="z-content-byline">
+    ...
+      <div class="z-form z-form-standard"><form action="http://localhost/space/some-poll-set/00001/@@index.html" method="post" enctype="multipart/form-data" name="form" id="form">
+        <h2>What?</h2>
         <table width="100%">
         <tbody>
         <tr>
@@ -113,12 +116,7 @@ Poll form
                       <a href="http://localhost/space/some-poll-set/00001/results.html">50%</a>
                     </span>
                     <span class="votes">1</span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </td>
-        </tr>
+    ...
          <tr>
           <td><span class="poll-results-answer-label">custom value</span></td>
         </tr>
@@ -133,22 +131,16 @@ Poll form
                       <a href="http://localhost/space/some-poll-set/00001/results.html">50%</a>
                     </span>
                     <span class="votes">1</span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </td>
-        </tr>
-      </tbody>
-        </table>
-      <p>Status: Opened</p>
-      <p>First vote: ...</p>
-      <p>Last vote: ...</p>
-      <p>Total votes: 2</p>
-      </form></div><a class="vote-results" href="http://localhost/space/some-poll-set/00001/results.html">view results</a>
-      </div>
-     ...
-     </html>
+    ...
+     <p>Status: Opened</p>
+     <p>First vote: ...</p>
+     <p>Last vote: ...</p>
+     <p>Total votes: 2</p>
+    </form></div>
+     <a class="vote-results" href="http://localhost/space/some-poll-set/00001/results.html">view results</a>
+    ...
+      </body>
+    </html>
 
 We have counters in polling
 
@@ -262,17 +254,14 @@ check portlet
     >>> print user.contents
     <html>
     ...
-        <table>
-            <tr>
-        <td><div class="z-portlet portlet-poll">
-    <h2 class="z-portlet-header">Some Poll Set</h2>
+      <h2 class="z-portlet-header">Some Poll Set</h2>
       <div class="z-portlet-body">
         <div class="z-portlet-item">
-          <h2>Some Poll</h2>
+      <h2>Some Poll</h2>
       <div class="poll-description"></div>
       <div class="poll-body">Some Poll Body</div>
       <div class="z-form z-form-standard"><form action="http://localhost/test.html" method="post" enctype="multipart/form-data" name="form" id="form">
-      <h2>What?</h2>
+        <h2>What?</h2>
         <table width="100%">
         <tbody>
         <tr>
@@ -289,12 +278,7 @@ check portlet
                       <a href="http://localhost/space/some-poll-set/00001/results.html">50%</a>
                     </span>
                     <span class="votes">1</span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </td>
-        </tr>
+    ...        </tr>
          <tr>
           <td><span class="poll-results-answer-label">custom value</span></td>
         </tr>
@@ -310,26 +294,11 @@ check portlet
                     </span>
                     <span class="votes">1</span>
                   </td>
-                </tr>
-              </tbody>
-            </table>
-          </td>
-        </tr>
-    </tbody>
-        </table>
-      <p>Status: Opened</p>
-     <p>First vote: ...</p>
-     <p>Last vote: ...</p>
+    ...
+     <p>Status: Opened</p>
+     <p>First vote:...</p>
+     <p>Last vote:...</p>
      <p>Total votes: 2</p>
-    </form></div><a class="vote-results" href="http://localhost/space/some-poll-set/00001/results.html">view results</a>
-    </div>
-      </div>
-      <div class="z-portlet-footer"><!-- --></div>
-    </div></td>
-        <td><div id="z-portal-workspace"><div id="z-portal-viewspace"><div id="z-content"><div>zope.mgr</div>
-    <div>Manager</div></div></div></div></td>
-            </tr>
-          </table>
     ...
     </html>
 
